@@ -6,8 +6,9 @@
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -22,7 +23,7 @@
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
-        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -30,8 +31,9 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="data/ingombri_ipotesi_1.js"></script>
-        <script src="data/Edizioni_4Land_2021_2.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="data/Copertura_prevista_2022_1.js"></script>
+        <script src="data/copertura_4land_digitale_2021_2.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -50,10 +52,11 @@
         }
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[43.990241599588316,10.238295210358324],[44.3190171762443,10.981045226903047]]);
+        }).fitBounds([[40.461978750717996,4.227825280783349],[46.95915932593681,19.017731977364868]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
@@ -70,7 +73,7 @@
         });
         layer_OpenStreetmapCHRelief_0;
         map.addLayer(layer_OpenStreetmapCHRelief_0);
-        function pop_ingombri_ipotesi_1(feature, layer) {
+        function pop_Copertura_prevista_2022_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (i in e.target._eventParents) {
@@ -84,49 +87,61 @@
                         <td colspan="2"><strong>NOME</strong><br />' + (feature.properties['NOME'] !== null ? autolinker.link(feature.properties['NOME'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>CODICE</strong><br />' + (feature.properties['CODICE'] !== null ? autolinker.link(feature.properties['CODICE'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">CODICE</th>\
+                        <td>' + (feature.properties['CODICE'] !== null ? autolinker.link(feature.properties['CODICE'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>ANNO</strong><br />' + (feature.properties['ANNO'] !== null ? autolinker.link(feature.properties['ANNO'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">EDIZIONE</th>\
+                        <td>' + (feature.properties['EDIZIONE'] !== null ? autolinker.link(feature.properties['EDIZIONE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ANNO</th>\
+                        <td>' + (feature.properties['ANNO'] !== null ? autolinker.link(feature.properties['ANNO'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['NOTE'] !== null ? autolinker.link(feature.properties['NOTE'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2"><strong>SCALA</strong><br />' + (feature.properties['SCALA'] !== null ? autolinker.link(feature.properties['SCALA'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">SCALA</th>\
+                        <td>' + (feature.properties['SCALA'] !== null ? autolinker.link(feature.properties['SCALA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['label'] !== null ? autolinker.link(feature.properties['label'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_ingombri_ipotesi_1_0() {
+        function style_Copertura_prevista_2022_1_0() {
             return {
-                pane: 'pane_ingombri_ipotesi_1',
+                pane: 'pane_Copertura_prevista_2022_1',
                 opacity: 1,
-                color: 'rgba(0,0,0,1.0)',
+                color: 'rgba(31,120,180,1.0)',
                 dashArray: '',
-                lineCap: 'square',
-                lineJoin: 'bevel',
-                weight: 2.0,
-                fillOpacity: 0,
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,0.10196078431372549)',
                 interactive: true,
             }
         }
-        map.createPane('pane_ingombri_ipotesi_1');
-        map.getPane('pane_ingombri_ipotesi_1').style.zIndex = 401;
-        map.getPane('pane_ingombri_ipotesi_1').style['mix-blend-mode'] = 'normal';
-        var layer_ingombri_ipotesi_1 = new L.geoJson(json_ingombri_ipotesi_1, {
+        map.createPane('pane_Copertura_prevista_2022_1');
+        map.getPane('pane_Copertura_prevista_2022_1').style.zIndex = 401;
+        map.getPane('pane_Copertura_prevista_2022_1').style['mix-blend-mode'] = 'normal';
+        var layer_Copertura_prevista_2022_1 = new L.geoJson(json_Copertura_prevista_2022_1, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_ingombri_ipotesi_1',
-            layerName: 'layer_ingombri_ipotesi_1',
-            pane: 'pane_ingombri_ipotesi_1',
-            onEachFeature: pop_ingombri_ipotesi_1,
-            style: style_ingombri_ipotesi_1_0,
+            dataVar: 'json_Copertura_prevista_2022_1',
+            layerName: 'layer_Copertura_prevista_2022_1',
+            pane: 'pane_Copertura_prevista_2022_1',
+            onEachFeature: pop_Copertura_prevista_2022_1,
+            style: style_Copertura_prevista_2022_1_0,
         });
-        bounds_group.addLayer(layer_ingombri_ipotesi_1);
-        map.addLayer(layer_ingombri_ipotesi_1);
-        function pop_Edizioni_4Land_2021_2(feature, layer) {
+        bounds_group.addLayer(layer_Copertura_prevista_2022_1);
+        map.addLayer(layer_Copertura_prevista_2022_1);
+        function pop_copertura_4land_digitale_2021_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (i in e.target._eventParents) {
@@ -137,16 +152,19 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['NOME'] !== null ? autolinker.link(feature.properties['NOME'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>NOME</strong><br />' + (feature.properties['NOME'] !== null ? autolinker.link(feature.properties['NOME'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['CODICE'] !== null ? autolinker.link(feature.properties['CODICE'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">CODICE</th>\
+                        <td>' + (feature.properties['CODICE'] !== null ? autolinker.link(feature.properties['CODICE'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['ANNO'] !== null ? autolinker.link(feature.properties['ANNO'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">ANNO</th>\
+                        <td>' + (feature.properties['ANNO'] !== null ? autolinker.link(feature.properties['ANNO'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['SCALA'] !== null ? autolinker.link(feature.properties['SCALA'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">SCALA</th>\
+                        <td>' + (feature.properties['SCALA'] !== null ? autolinker.link(feature.properties['SCALA'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['COPERTINA'] !== null ? autolinker.link(feature.properties['COPERTINA'].toLocaleString()) : '') + '</td>\
@@ -158,7 +176,8 @@
                         <td colspan="2">' + (feature.properties['COLLANA'] !== null ? autolinker.link(feature.properties['COLLANA'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['REGIONE'] !== null ? autolinker.link(feature.properties['REGIONE'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">REGIONE</th>\
+                        <td>' + (feature.properties['REGIONE'] !== null ? autolinker.link(feature.properties['REGIONE'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['ISBN'] !== null ? autolinker.link(feature.properties['ISBN'].toLocaleString()) : '') + '</td>\
@@ -185,9 +204,9 @@
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_Edizioni_4Land_2021_2_0() {
+        function style_copertura_4land_digitale_2021_2_0() {
             return {
-                pane: 'pane_Edizioni_4Land_2021_2',
+                pane: 'pane_copertura_4land_digitale_2021_2',
                 opacity: 1,
                 color: 'rgba(227,26,28,1.0)',
                 dashArray: '',
@@ -200,28 +219,38 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_Edizioni_4Land_2021_2');
-        map.getPane('pane_Edizioni_4Land_2021_2').style.zIndex = 402;
-        map.getPane('pane_Edizioni_4Land_2021_2').style['mix-blend-mode'] = 'normal';
-        var layer_Edizioni_4Land_2021_2 = new L.geoJson(json_Edizioni_4Land_2021_2, {
+        map.createPane('pane_copertura_4land_digitale_2021_2');
+        map.getPane('pane_copertura_4land_digitale_2021_2').style.zIndex = 402;
+        map.getPane('pane_copertura_4land_digitale_2021_2').style['mix-blend-mode'] = 'normal';
+        var layer_copertura_4land_digitale_2021_2 = new L.geoJson(json_copertura_4land_digitale_2021_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Edizioni_4Land_2021_2',
-            layerName: 'layer_Edizioni_4Land_2021_2',
-            pane: 'pane_Edizioni_4Land_2021_2',
-            onEachFeature: pop_Edizioni_4Land_2021_2,
-            style: style_Edizioni_4Land_2021_2_0,
+            dataVar: 'json_copertura_4land_digitale_2021_2',
+            layerName: 'layer_copertura_4land_digitale_2021_2',
+            pane: 'pane_copertura_4land_digitale_2021_2',
+            onEachFeature: pop_copertura_4land_digitale_2021_2,
+            style: style_copertura_4land_digitale_2021_2_0,
         });
-        bounds_group.addLayer(layer_Edizioni_4Land_2021_2);
-        map.addLayer(layer_Edizioni_4Land_2021_2);
+        bounds_group.addLayer(layer_copertura_4land_digitale_2021_2);
+        map.addLayer(layer_copertura_4land_digitale_2021_2);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
         setBounds();
         var i = 0;
-        layer_ingombri_ipotesi_1.eachLayer(function(layer) {
+        layer_Copertura_prevista_2022_1.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['CODICE'] !== null?String('<div style="color: #000000; font-size: 12pt; font-weight: bold; font-family: \'Source Sans Pro\', sans-serif;">' + layer.feature.properties['CODICE']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_ingombri_ipotesi_1'});
+            layer.bindTooltip((layer.feature.properties['label'] !== null?String('<div style="color: #ffffff; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['label']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Copertura_prevista_2022_1'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
@@ -229,27 +258,27 @@
               i++;
         });
         var i = 0;
-        layer_Edizioni_4Land_2021_2.eachLayer(function(layer) {
+        layer_copertura_4land_digitale_2021_2.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['CODICE'] !== null?String('<div style="color: #ffffff; font-size: 12pt; font-family: \'Source Sans Pro\', sans-serif;">' + layer.feature.properties['CODICE']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_Edizioni_4Land_2021_2'});
+            layer.bindTooltip((layer.feature.properties['CODICE'] !== null?String('<div style="color: #ffffff; font-size: 12pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['CODICE']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_copertura_4land_digitale_2021_2'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
               addLabel(layer, i);
               i++;
         });
-        resetLabels([layer_ingombri_ipotesi_1,layer_Edizioni_4Land_2021_2]);
+        resetLabels([layer_Copertura_prevista_2022_1,layer_copertura_4land_digitale_2021_2]);
         map.on("zoomend", function(){
-            resetLabels([layer_ingombri_ipotesi_1,layer_Edizioni_4Land_2021_2]);
+            resetLabels([layer_Copertura_prevista_2022_1,layer_copertura_4land_digitale_2021_2]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer_ingombri_ipotesi_1,layer_Edizioni_4Land_2021_2]);
+            resetLabels([layer_Copertura_prevista_2022_1,layer_copertura_4land_digitale_2021_2]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer_ingombri_ipotesi_1,layer_Edizioni_4Land_2021_2]);
+            resetLabels([layer_Copertura_prevista_2022_1,layer_copertura_4land_digitale_2021_2]);
         });
         </script>
     </body>
